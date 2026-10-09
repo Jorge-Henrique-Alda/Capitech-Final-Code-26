@@ -1,14 +1,21 @@
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Subsystems.Driver.DriverSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+  private final DriverSubsystem drivetrain = new DriverSubsystem();
+
+  private final XboxController controller1 = new XboxController(0);
 
 
   public Robot() {
@@ -31,44 +38,50 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
       case kCustomAuto:
-        // Put custom auto code here
         break;
       case kDefaultAuto:
       default:
-        // Put default auto code here
+
         break;
     }
   }
 
-  /** This function is  once when teleop is enabled. */
+
   @Override
   public void teleopInit() {}
 
-  /** This function is called periodically during operator control. */
-  @Override
-  public void teleopPeriodic() {}
 
-  /** This function is called once when the robot is disabled. */
   @Override
-  public void disabledInit() {}
+  public void teleopPeriodic() {
+    double velocidade = -MathUtil.applyDeadband(controller1.getLeftY(), 0.1);
+    double giro = -MathUtil.applyDeadband(controller1.getLeftX(), 0.1);
 
-  /** This function is called periodically when disabled. */
+    drivetrain.arcadeDrive(velocidade, giro);
+  }
+
+
+  @Override
+  public void disabledInit() {
+    drivetrain.stop();
+  }
+
+
   @Override
   public void disabledPeriodic() {}
 
-  /** This function is called once when test mode is enabled. */
+
   @Override
   public void testInit() {}
 
-  /** This function is called periodically during test mode. */
+
   @Override
   public void testPeriodic() {}
 
-  /** This function is called once when the robot is first started up. */
+
   @Override
   public void simulationInit() {}
 
-  /** This function is called periodically whilst in simulation. */
+
   @Override
   public void simulationPeriodic() {}
 }
