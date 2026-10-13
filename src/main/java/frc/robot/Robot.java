@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Subsystems.Driver.DriverSubsystem;
+import frc.robot.Subsystems.Intake.IntakeSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class Robot extends TimedRobot {
@@ -14,8 +15,36 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private final DriverSubsystem drivetrain = new DriverSubsystem();
+  private final IntakeSubsystem intake = new IntakeSubsystem();
 
   private final XboxController controller1 = new XboxController(0);
+  private final XboxController controller2= new XboxController(1);
+
+  private boolean lastButtonAState = false;
+  private boolean lastButtonBState = false;
+  private boolean lastButtonXState = false;
+  private boolean lastButtonYState = false;
+  private boolean lastRightButtonState = false;
+  private boolean lastLeftButtonState = false;
+  private boolean lastRightTriggerState = false;
+  private boolean lastLeftTriggerState = false;
+
+  boolean currentA = controller1.getAButton();
+  boolean currentB = controller1.getBButton();
+  boolean currentX = controller1.getXButton();
+  boolean currentY = controller1.getYButton();
+  boolean currentRB = controller1.getRightBumperButton();
+  boolean currentLB = controller1.getLeftBumperButton();
+  boolean currentRT = controller1.getRightTriggerAxis() > 0.1;
+  boolean currentLT = controller1.getLeftTriggerAxis() > 0.1;
+
+  private void setAllOFF() {
+    intake.setOFF();
+  }
+
+  private void setAllLOW() {
+    intake.setLOW();
+  }
 
 
   public Robot() {
@@ -57,6 +86,33 @@ public class Robot extends TimedRobot {
     double giro = -MathUtil.applyDeadband(controller1.getLeftX(), 0.1);
 
     drivetrain.arcadeDrive(velocidade, giro);
+
+    if (currentY && !lastButtonYState) {
+      intake.toggleIntake();
+    }
+
+    if (currentA && !lastButtonAState) {
+      intake.toggleOuttake();
+    }
+
+    if (currentB && !lastButtonBState) {
+      setAllOFF();
+    }
+
+    if (currentX && !lastButtonXState) {
+      setAllLOW();
+    }
+
+
+    lastButtonAState = currentA;
+    lastButtonYState = currentY;
+    lastButtonBState = currentB;
+    lastButtonXState = currentX;
+    lastRightButtonState = currentRB;
+    lastLeftButtonState = currentLB;
+    lastRightButtonState = currentRT;
+    lastLeftTriggerState = currentLT;
+
   }
 
 
