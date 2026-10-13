@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Subsystems.Driver.DriverSubsystem;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
+import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class Robot extends TimedRobot {
@@ -16,6 +17,7 @@ public class Robot extends TimedRobot {
 
   private final DriverSubsystem drivetrain = new DriverSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
 
   private final XboxController controller1 = new XboxController(0);
   private final XboxController controller2= new XboxController(1);
@@ -40,10 +42,12 @@ public class Robot extends TimedRobot {
 
   private void setAllOFF() {
     intake.setOFF();
+    shooter.setOFF();
   }
 
   private void setAllLOW() {
     intake.setLOW();
+    shooter.setLOW();
   }
 
 
@@ -87,12 +91,17 @@ public class Robot extends TimedRobot {
 
     drivetrain.arcadeDrive(velocidade, giro);
 
+    if (currentRT && !lastRightTriggerState) {
+      shooter.toggleShooter();
+    }
+
     if (currentY && !lastButtonYState) {
       intake.toggleIntake();
     }
 
     if (currentA && !lastButtonAState) {
       intake.toggleOuttake();
+      shooter.toggleSOuttake();
     }
 
     if (currentB && !lastButtonBState) {
