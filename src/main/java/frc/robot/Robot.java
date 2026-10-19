@@ -33,14 +33,14 @@ public class Robot extends TimedRobot {
   private boolean lastRightTriggerState = false;
   private boolean lastLeftTriggerState = false;
 
-  boolean currentA = controller1.getAButton();
-  boolean currentB = controller1.getBButton();
-  boolean currentX = controller1.getXButton();
-  boolean currentY = controller1.getYButton();
-  boolean currentRB = controller1.getRightBumperButton();
-  boolean currentLB = controller1.getLeftBumperButton();
-  boolean currentRT = controller1.getRightTriggerAxis() > 0.1;
-  boolean currentLT = controller1.getLeftTriggerAxis() > 0.1;
+  boolean currentA = controller2.getAButton();
+  boolean currentB = controller2.getBButton();
+  boolean currentX = controller2.getXButton();
+  boolean currentY = controller2.getYButton();
+  boolean currentRB = controller2.getRightBumperButton();
+  boolean currentLB = controller2.getLeftBumperButton();
+  boolean currentRT = controller2.getRightTriggerAxis() > 0.1;
+  boolean currentLT = controller2.getLeftTriggerAxis() > 0.1;
 
   private void setAllOFF() {
     intake.setOFF();
