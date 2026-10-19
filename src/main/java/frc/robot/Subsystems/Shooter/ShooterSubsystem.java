@@ -16,7 +16,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;  // Importação p
 import java.util.function.DoubleSupplier;
 
 public class ShooterSubsystem extends SubsystemBase {
-    private final SparkMax Shooter06Max = new SparkMax(6,MotorType.kBrushed);
+    private final SparkMax Shooter07Max = new SparkMax(7,MotorType.kBrushed);
     private Sstate currentSstate = Sstate.OFF;
 
     public enum Sstate {
@@ -24,9 +24,9 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public ShooterSubsystem() {
-        SparkMaxConfig Shooter06Config = new SparkMaxConfig();
-        Shooter06Config.idleMode(IdleMode.kCoast);
-        Shooter06Max.configure(Shooter06Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        SparkMaxConfig Shooter07Config = new SparkMaxConfig();
+        Shooter07Config.idleMode(IdleMode.kCoast);
+        Shooter07Max.configure(Shooter07Config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
 
@@ -47,30 +47,30 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setLOW() {
-        Shooter06Max.set(0.25);
+        Shooter07Max.set(0.25);
     }
 
     public void setOFF() {
-        Shooter06Max.set(0);
+        Shooter07Max.set(0);
     }
 
     @Override
     public void periodic() {
 
         switch (currentSstate) {
-            case OFF: Shooter06Max.set(0);
+            case OFF: Shooter07Max.set(0);
 
                 break;
 
-            case LOW: Shooter06Max.set(0.25);
+            case LOW: Shooter07Max.set(0.25);
 
                 break;
 
-            case SHOOTER: Shooter06Max.set(-0.5);
+            case SHOOTER: Shooter07Max.set(-0.5);
 
                 break;
 
-            case OUTTAKE: Shooter06Max.set(0.5);
+            case OUTTAKE: Shooter07Max.set(0.5);
 
                 break;
 
