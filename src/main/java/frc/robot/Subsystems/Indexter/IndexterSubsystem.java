@@ -16,7 +16,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;  // Importação p
 import java.util.function.DoubleSupplier;
 
 public class IndexterSubsystem extends SubsystemBase {
-    private final SparkMax Indexter06Max = new SparkMax(5,MotorType.kBrushed);
+    private final SparkMax Indexter06Max = new SparkMax(6,MotorType.kBrushed);
     private Idstate currentIdstate = Idstate.OFF;
 
     public enum Idstate {
