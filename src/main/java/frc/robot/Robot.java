@@ -141,6 +141,12 @@ public class Robot extends TimedRobot {
             setAllLOW();
         }
 
+        lastButtonAState = currentA;
+        lastButtonBState = currentB;
+        lastButtonXState = currentX;
+        lastButtonYState = currentY;
+        lastRightButtonState = currentRB;
+        lastLeftButtonState = currentLB;
         lastRightTriggerState = currentRT;
         lastLeftTriggerState = currentLT;
 
