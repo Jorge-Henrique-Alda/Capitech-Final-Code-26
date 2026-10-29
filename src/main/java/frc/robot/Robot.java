@@ -1,4 +1,3 @@
-
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
@@ -30,6 +29,15 @@ public class Robot extends TimedRobot {
     private final XboxController controller1 = new XboxController(0);
     private final XboxController controller2 = new XboxController(1);
 
+    private boolean lastButtonAState = false;
+    private boolean lastButtonBState = false;
+    private boolean lastButtonXState = false;
+    private boolean lastButtonYState = false;
+    private boolean lastRightButtonState = false;
+    private boolean lastLeftButtonState = false;
+    private boolean lastRightTriggerState = false;
+    private boolean lastLeftTriggerState = false;
+
     
 
     private void setAllOFF() {
@@ -52,7 +60,11 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void robotPeriodic() {}
+    public void robotPeriodic() {
+        intake.periodic();
+        indexter.periodic();
+        shooter.periodic();
+    }
 
     @Override
     public void autonomousInit() {
@@ -92,34 +104,45 @@ public class Robot extends TimedRobot {
         // === LEITURA ATUALIZADA DO GATILHO 2 ===
         boolean currentRT = controller2.getRightTriggerAxis() > 0.1;
         boolean currentLT = controller2.getLeftTriggerAxis() > 0.1;
+        boolean currentA = controller2.getAButton();
+        boolean currentB = controller2.getBButton();
+        boolean currentX = controller2.getXButton();
+        boolean currentY = controller2.getYButton();
+        boolean currentRB = controller2.getRightBumperButton();
+        boolean currentLB = controller2.getLeftBumperButton();
 
 
         // === RT: SHOOTER ===
         if (currentRT && !lastRightTriggerState) {
             shooter.toggleShooter();
+            indexter.toggleIndexter();
         }
 
         // === Y: INTAKE ===
-        if (controller2.getYButtonPressed()) {
+        if (currentY && !lastButtonYState) {
             intake.toggleIntake();
+            indexter.toggleIndexter();
         }
 
         // === A: OUTTAKE ===
-        if (controller2.getAButtonPressed()) {
+        if (currentA && !lastButtonAState) {
             intake.toggleOuttake();
             shooter.toggleSOuttake();
+            indexter.toggleOuttake();
         }
 
         // === B: DESLIGAR TUDO ===
-        if (controller2.getBButtonPressed()) {
+        if (currentB && !lastButtonBState) {
             setAllOFF();
         }
 
         // === X: MODO LOW ===
-        if (controller2.getXButtonPressed()) {
+        if (currentX && !lastButtonXState) {
             setAllLOW();
         }
 
+        lastRightTriggerState = currentRT;
+        lastLeftTriggerState = currentLT;
 
         SmartDashboard.putBoolean("C2 A", currentA);
         SmartDashboard.putBoolean("C2 B", currentB);
