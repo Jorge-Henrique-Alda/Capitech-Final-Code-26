@@ -47,11 +47,11 @@ public class IndexterSubsystem extends SubsystemBase {
     }
 
     public void setLOW() {
-        Indexter06Max.set(0.25);
+        currentIdstate = Idstate.LOW;
     }
 
-    public void setOFF() {
-        Indexter06Max.set(0);
+    public void setOFF(){
+        currentIdstate = Idstate.OFF;
     }
 
     @Override

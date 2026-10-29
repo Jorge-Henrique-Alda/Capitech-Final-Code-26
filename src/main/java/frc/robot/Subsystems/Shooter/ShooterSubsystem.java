@@ -46,12 +46,11 @@ public class ShooterSubsystem extends SubsystemBase {
             currentSstate = Sstate.OUTTAKE;        }
     }
 
-    public void setLOW() {
-        Shooter07Max.set(0.25);
+    public void setLOW() { currentSstate = Sstate.LOW;
     }
 
     public void setOFF() {
-        Shooter07Max.set(0);
+        currentSstate = Sstate.OFF;
     }
 
     @Override

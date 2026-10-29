@@ -47,11 +47,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void setLOW() {
-        Intake05Max.set(0.25);
+        currentIstate = Istate.LOW;
     }
 
     public void setOFF() {
-        Intake05Max.set(0);
+        currentIstate = Istate.OFF;
     }
 
     @Override
