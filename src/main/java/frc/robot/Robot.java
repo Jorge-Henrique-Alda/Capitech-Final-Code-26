@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 
+import frc.robot.Autonomous.AutonomousManager;
 import frc.robot.Subsystems.Driver.DriverSubsystem;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
@@ -13,8 +14,8 @@ import frc.robot.Subsystems.Indexter.IndexterSubsystem;
 
 public class Robot extends TimedRobot {
 
-    private static final String kDefaultAuto = "Default";
-    private static final String kCustomAuto = "My Auto";
+    private static final String kDefaultAuto = "DEFAULT";
+    private static final String kCustomAuto1 = "AUTO_1";
 
     private String m_autoSelected;
 
@@ -28,6 +29,14 @@ public class Robot extends TimedRobot {
 
     private final XboxController controller1 = new XboxController(0);
     private final XboxController controller2 = new XboxController(1);
+
+    private final AutonomousManager autonomous =
+            new AutonomousManager(
+                    drivetrain,
+                    intake,
+                    indexter,
+                    shooter
+            );
 
     private boolean lastButtonAState = false;
     private boolean lastButtonBState = false;
@@ -53,10 +62,21 @@ public class Robot extends TimedRobot {
     }
 
     public Robot() {
-        m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-        m_chooser.addOption("My Auto", kCustomAuto);
 
-        SmartDashboard.putData("Auto choices", m_chooser);
+            m_chooser.setDefaultOption(
+                    "Default Auto",
+                    kDefaultAuto
+            );
+
+            m_chooser.addOption(
+                    "Auto 1",
+                    kCustomAuto1
+            );
+
+            SmartDashboard.putData(
+                    "Auto choices",
+                    m_chooser
+            );
     }
 
     @Override
@@ -71,22 +91,21 @@ public class Robot extends TimedRobot {
         m_autoSelected = m_chooser.getSelected();
 
         System.out.println("Auto selected: " + m_autoSelected);
+
+        autonomous.start(m_autoSelected);
     }
 
     @Override
     public void autonomousPeriodic() {
-        switch (m_autoSelected) {
-            case kCustomAuto:
-                break;
-
-            case kDefaultAuto:
-            default:
-                break;
-        }
+        autonomous.periodic();
     }
 
     @Override
-    public void teleopInit() {}
+    public void teleopInit() {
+        autonomous.stop();
+
+        lastLeftTriggerState = controller2.getLeftTriggerAxis() > 0.1;
+    }
 
     @Override
     public void teleopPeriodic() {
@@ -159,6 +178,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        autonomous.stop();-
         drivetrain.stop();
     }
 
