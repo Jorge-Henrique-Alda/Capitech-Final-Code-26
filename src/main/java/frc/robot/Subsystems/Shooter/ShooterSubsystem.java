@@ -13,6 +13,8 @@ import com.revrobotics.spark.SparkMax; //Importação para utilizar SparkMax
 import com.revrobotics.spark.SparkLowLevel.MotorType; //Importação para decidir qual motor vai ser (Brushed ou Brusheless)
 import com.revrobotics.spark.config.SparkMaxConfig; // Importação para criar e aplicar configurações no SparkMax
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;  // Importação para definir o modo de parada do motor (Brake ou Coast)
+import frc.robot.Subsystems.Indexter.IndexterSubsystem;
+
 import java.util.function.DoubleSupplier;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -38,13 +40,24 @@ public class ShooterSubsystem extends SubsystemBase {
             currentSstate = Sstate.SHOOTER;        }
     }
 
-    public void  toggleSOuttake() {
+    public void  toggleOuttake() {
         if(currentSstate == Sstate.OUTTAKE){
             currentSstate = Sstate.LOW;}
 
         else {
-            currentSstate = Sstate.OUTTAKE;        }
+            currentSstate = Sstate.OUTTAKE;}
     }
+
+    public void setShooter() {
+
+        currentSstate = Sstate.SHOOTER;
+    }
+
+    public void setOuttake() {
+
+        currentSstate = Sstate.OUTTAKE;
+    }
+
 
     public void setLOW() { currentSstate = Sstate.LOW;
     }
@@ -61,7 +74,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
                 break;
 
-            case LOW: Shooter07Max.set(0.25);
+            case LOW: Shooter07Max.set(-0.25);
 
                 break;
 
