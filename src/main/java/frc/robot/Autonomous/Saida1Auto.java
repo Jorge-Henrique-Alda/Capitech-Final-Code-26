@@ -37,7 +37,6 @@ public class Saida1Auto implements AutonomousRoutine {
     public Saida1Auto(DriverSubsystem drivetrain,
                       IntakeSubsystem intake,
                       IndexterSubsystem indexter,
-                      IndexterSSubsystem indexterShooter,
                       ShooterSubsystem shooter) {
         this.drivetrain = drivetrain;
         this.intake = intake;
