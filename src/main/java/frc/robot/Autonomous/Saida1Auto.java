@@ -3,6 +3,7 @@ package frc.robot.Autonomous;
 import edu.wpi.first.wpilibj.Timer;
 
 import frc.robot.Subsystems.Driver.DriverSubsystem;
+import frc.robot.Subsystems.IndexterS.IndexterSSubsystem;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import frc.robot.Subsystems.Indexter.IndexterSubsystem;
@@ -13,6 +14,7 @@ public class Saida1Auto implements AutonomousRoutine {
     private IntakeSubsystem intake = new IntakeSubsystem();
     private ShooterSubsystem shooter = new ShooterSubsystem();
     private IndexterSubsystem indexter = new IndexterSubsystem();
+    private IndexterSSubsystem indexterShooter = new IndexterSSubsystem();
 
 
     // === TEMPORIZADOR ===
@@ -35,10 +37,12 @@ public class Saida1Auto implements AutonomousRoutine {
     public Saida1Auto(DriverSubsystem drivetrain,
                       IntakeSubsystem intake,
                       IndexterSubsystem indexter,
+                      IndexterSSubsystem indexterShooter,
                       ShooterSubsystem shooter) {
         this.drivetrain = drivetrain;
         this.intake = intake;
         this.indexter = indexter;
+        this.indexterShooter = indexterShooter;
         this.shooter = shooter;
     }
 
@@ -50,6 +54,7 @@ public class Saida1Auto implements AutonomousRoutine {
 
         intake.setOFF();
         indexter.setOFF();
+        indexterShooter.setOFF();
         shooter.setOFF();
 
         currentState = AutoState.PREPARING;
@@ -72,6 +77,7 @@ public class Saida1Auto implements AutonomousRoutine {
                 if (timer.hasElapsed(0.25)) {
                     intake.setLOW();
                     indexter.setLOW();
+                    indexterShooter.setLOW();
                     shooter.setLOW();
 
                     timer.restart();
@@ -89,6 +95,7 @@ public class Saida1Auto implements AutonomousRoutine {
 
                     intake.setLOW();
                     indexter.setLOW();
+                    indexterShooter.setLOW();
                     shooter.setLOW();
 
                     timer.stop();
@@ -99,6 +106,7 @@ public class Saida1Auto implements AutonomousRoutine {
 
                     intake.setLOW();
                     indexter.setLOW();
+                    indexterShooter.setLOW();
                     shooter.setLOW();}
 
                 break;
@@ -109,6 +117,7 @@ public class Saida1Auto implements AutonomousRoutine {
 
                 intake.setOFF();
                 indexter.setOFF();
+                indexterShooter.setOFF();
                 shooter.setOFF();
 
                 break;
@@ -133,6 +142,8 @@ public class Saida1Auto implements AutonomousRoutine {
 
         intake.setOFF();
         indexter.setOFF();
+        indexterShooter.setOFF();
+        shooter.setOFF();
 
         currentState = AutoState.FINISH;
     }

@@ -1,6 +1,7 @@
 package frc.robot.Autonomous;
 
 import frc.robot.Subsystems.Driver.DriverSubsystem;
+import frc.robot.Subsystems.IndexterS.IndexterSSubsystem;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import frc.robot.Subsystems.Indexter.IndexterSubsystem;
@@ -16,7 +17,7 @@ public class AutonomousManager {
     // === AUTONOMOUS ATUAL ===
     private AutonomousRoutine activeRoutine;
 
-    public AutonomousManager(DriverSubsystem drivetrain, IntakeSubsystem intake, IndexterSubsystem indexter, ShooterSubsystem shooter) {
+    public AutonomousManager(DriverSubsystem drivetrain, IntakeSubsystem intake, IndexterSubsystem indexter, IndexterSSubsystem indexterShooter, ShooterSubsystem shooter) {
 
         this.drivetrain = drivetrain;
         this.intake = intake;
