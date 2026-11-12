@@ -1,4 +1,3 @@
-
 package frc.robot.Subsystems.Indexter;
 
 import com.revrobotics.PersistMode;
@@ -21,8 +20,9 @@ public class IndexterSubsystem extends SubsystemBase {
     public enum Idstate {
         OFF,
         LOW,
-        INTAKE,
-        OUTTAKE
+        SHOOTER,
+        OUTTAKE,
+
     }
 
     public IndexterSubsystem() {
@@ -40,13 +40,13 @@ public class IndexterSubsystem extends SubsystemBase {
 
     public void toggleIndexter() {
 
-        if (currentIdstate == Idstate.INTAKE) {
+        if (currentIdstate == Idstate.SHOOTER) {
 
             currentIdstate = Idstate.LOW;
 
         } else {
 
-            currentIdstate = Idstate.INTAKE;
+            currentIdstate = Idstate.SHOOTER;
         }
     }
 
@@ -64,9 +64,9 @@ public class IndexterSubsystem extends SubsystemBase {
         }
     }
 
-    public void setIntake() {
+    public void setShooter() {
 
-        currentIdstate = Idstate.INTAKE;
+        currentIdstate = Idstate.SHOOTER;
     }
 
     public void setOuttake() {
@@ -103,7 +103,7 @@ public class IndexterSubsystem extends SubsystemBase {
                 break;
 
 
-            case INTAKE:
+            case SHOOTER:
 
                 Indexter06Max.set(-0.5);
 
