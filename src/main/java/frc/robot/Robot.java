@@ -13,6 +13,7 @@ import frc.robot.Subsystems.Driver.DriverSubsystem;
 import frc.robot.Subsystems.Intake.IntakeSubsystem;
 import frc.robot.Subsystems.Shooter.ShooterSubsystem;
 import frc.robot.Subsystems.Indexter.IndexterSubsystem;
+import frc.robot.Subsystems.IndexterS.IndexterSSubsystem;
 
 public class Robot extends TimedRobot {
 
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
     private final IntakeSubsystem intake = new IntakeSubsystem();
     private final ShooterSubsystem shooter = new ShooterSubsystem();
     private final IndexterSubsystem indexter = new IndexterSubsystem();
+    private final IndexterSSubsystem indexterShooter = new IndexterSSubsystem();
 
     // === AUTONOMOUS MANAGER ===
     private final AutonomousManager autonomous =
@@ -36,20 +38,21 @@ public class Robot extends TimedRobot {
                     drivetrain,
                     intake,
                     indexter,
+                    indexterShooter,
                     shooter);
 
     private final XboxController controller1 = new XboxController(0);
     private final XboxController controller2 = new XboxController(1);
 
     private enum Modo {
-        PARADO,
+        OFF,
         LOW,
         INTAKE,
-        TIRO,
+        SHOOTER,
         OUTTAKE
     }
 
-    private Modo modo = Modo.PARADO;
+    private Modo modo = Modo.OFF;
     private final Timer tiroTimer = new Timer();
     private boolean indexterFeedStarted = false;
     private boolean lastRightTriggerState = false;
@@ -71,12 +74,13 @@ public class Robot extends TimedRobot {
 
             case INTAKE:
                 intake.setIntake();
-                indexter.setIntake();
 
                 break;
 
-            case TIRO:
+            case SHOOTER:
                 shooter.setShooter();
+                indexter.setShooter();
+                indexterShooter.setShooter();
                 tiroTimer.restart();
 
                 break;
@@ -85,6 +89,7 @@ public class Robot extends TimedRobot {
             case OUTTAKE:
                 intake.setOuttake();
                 indexter.setOuttake();
+                indexterShooter.setOuttake();
                 shooter.setOuttake();
 
                 break;
@@ -93,13 +98,15 @@ public class Robot extends TimedRobot {
             case LOW:
                 intake.setLOW();
                 indexter.setLOW();
+                indexterShooter.setLOW();
                 shooter.setLOW();
 
                 break;
 
-            case PARADO:
+            case OFF:
                 intake.setOFF();
                 indexter.setOFF();
+                indexterShooter.setOFF();
                 shooter.setOFF();
                 break;
         }
@@ -152,7 +159,7 @@ public class Robot extends TimedRobot {
 
         autonomous.stop();
 
-        setModo(Modo.PARADO);
+        setModo(Modo.OFF);
 
         lastRightTriggerState =
                 controller2.getRightTriggerAxis() > 0.5;
@@ -192,7 +199,7 @@ public class Robot extends TimedRobot {
 
         if (pressedB) {
 
-            setModo(Modo.PARADO);
+            setModo(Modo.OFF);
 
         } else if (pressedX) {
 
@@ -201,25 +208,26 @@ public class Robot extends TimedRobot {
         } else if (pressedY) {
 
             setModo(
-                    modo == Modo.INTAKE ? Modo.PARADO : Modo.INTAKE);
+                    modo == Modo.INTAKE ? Modo.OFF : Modo.INTAKE);
 
         } else if (pressedA) {
 
             setModo(
-                    modo == Modo.OUTTAKE ? Modo.PARADO : Modo.OUTTAKE);
+                    modo == Modo.OUTTAKE ? Modo.OFF : Modo.OUTTAKE);
 
         } else if (pressedRT) {
 
             setModo(
-                    modo == Modo.TIRO ? Modo.PARADO : Modo.TIRO);
+                    modo == Modo.SHOOTER ? Modo.OFF : Modo.SHOOTER);
         }
 
         if (
-                modo == Modo.TIRO
+                modo == Modo.SHOOTER
                         && !indexterFeedStarted
                         && tiroTimer.hasElapsed(0.4)) {
 
-            indexter.setIntake();
+            indexter.setShooter();
+            indexterShooter.setShooter();
 
             indexterFeedStarted = true;
         }
@@ -240,7 +248,7 @@ public class Robot extends TimedRobot {
 
         autonomous.stop();
 
-        setModo(Modo.PARADO);
+        setModo(Modo.OFF);
 
         drivetrain.stop();
     }
